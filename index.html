@@ -1,0 +1,225 @@
+<!--
+  Note: the file code will not store any details it's only a small joke to interest your friends
+
+  HAPPY BIRTHDAY V.1 – prank page
+
+  To change the texts, name or phone, scroll to the CONFIG block at the bottom.
+
+  NOTE:
+  Don't forget to add your phone numbre in the Phone section scroll down: 
+
+  in config : "phone": "+0000000000"
+
+  Replace the number only +000 0000000 
+
+  ( ADD YOUR PHONE NUMBER = +COUNTRY CODE + YOUR NUMBER )
+-->
+  
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="referrer" content="no-referrer">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!--
+      Security policy:
+      only script.js and style.css from this site, plus Google Fonts, are allowed to load.
+      No inline scripts or inline styles. The settings block at the bottom is data only.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests"
+    >
+
+    <title>!</title>
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap"
+      crossorigin="anonymous"
+    >
+
+    <!-- Page styles -->
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+
+  <body>
+
+    <!-- Background effects -->
+    <div class="crt"></div>
+    <div class="vignette"></div>
+    <canvas id="rain"></canvas>
+    <div class="scrim" id="scrim"></div>
+
+
+    <!-- ==================== Screen 1: "Do you trust me?" ==================== -->
+    <main class="screen" id="s-trust">
+      <div class="stack">
+
+        <div class="art-wrap">
+          <div class="art">
+<pre class="ascii" id="bang">██╗
+██║
+██║
+╚═╝
+██╗
+╚═╝</pre>
+          </div>
+        </div>
+
+        <p class="ask">
+          <span id="q1"></span><span class="cursor"></span>
+        </p>
+
+        <p class="sub" id="sub1">answer honestly</p>
+
+        <div class="choices" id="c1">
+          <button class="key" id="yesBtn" type="button">YES</button>
+          <button class="key no" id="noBtn" type="button">NO</button>
+        </div>
+
+      </div>
+    </main>
+
+
+    <!-- ==================== Screen 2: "Can I hack your phone?" ==================== -->
+    <main class="screen hidden" id="s-hack">
+      <div class="stack">
+
+        <p class="ask top">
+          <span id="q2"></span><span class="cursor"></span>
+        </p>
+
+        <p class="sub" id="sub2">this action cannot be undone</p>
+
+        <div class="choices" id="c2">
+          <button class="key" id="agreeBtn" type="button">AGREE</button>
+          <button class="key no" id="disagreeBtn" type="button">DISAGREE</button>
+        </div>
+
+      </div>
+    </main>
+
+
+    <!-- ==================== Screen 3: the fake hack ==================== -->
+    <main class="screen hidden" id="s-run">
+      <div class="stack">
+
+        <div class="log" id="runLog"></div>
+
+        <div class="bar-line" id="barRow">[<span id="barFill"></span><span class="empty" id="barEmpty"></span>] <span id="barPct">  0%</span></div>
+
+      </div>
+    </main>
+
+
+    <!-- ==================== Screen 4: Happy Birthday ==================== -->
+    <main class="screen hidden" id="s-party">
+      <div class="stack">
+
+        <div class="art-wrap">
+          <div class="art">
+<pre class="ascii" id="hb1">
+
+    ██╗  ██╗ █████╗ ██████╗ ██████╗ ██╗   ██╗
+    ██║  ██║██╔══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝
+    ███████║███████║██████╔╝██████╔╝ ╚████╔╝ 
+    ██╔══██║██╔══██║██╔═══╝ ██╔═══╝   ╚██╔╝  
+    ██║  ██║██║  ██║██║     ██║        ██║   
+    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝        ╚═╝   
+</pre>
+
+<pre class="ascii" id="hb2">
+
+    ██████╗ ██╗██████╗ ████████╗██╗  ██╗██████╗  █████╗ ██╗   ██╗
+    ██╔══██╗██║██╔══██╗╚══██╔══╝██║  ██║██╔══██╗██╔══██╗╚██╗ ██╔╝
+    ██████╔╝██║██████╔╝   ██║   ███████║██║  ██║███████║ ╚████╔╝ 
+    ██╔══██╗██║██╔══██╗   ██║   ██╔══██║██║  ██║██╔══██║  ╚██╔╝  
+    ██████╔╝██║██║  ██║   ██║   ██║  ██║██████╔╝██║  ██║   ██║   
+    ╚═════╝ ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚═╝  ╚═╝   ╚═╝ 
+
+</pre>
+          </div>
+        </div>
+
+        <pre class="cake" id="cake"></pre>
+
+        <p class="wish" id="wish"></p>
+        <p class="wish2" id="wish2"></p>
+
+        <div class="choices show call">
+          <a class="key" id="callBtn" href="#">One Last Thing, Click Me !</a>
+        </div>
+
+        <button class="again" id="replayBtn" type="button">[ run it again ]</button>
+
+      </div>
+    </main>
+
+
+    <!-- ==================== Popup message ==================== -->
+    <div class="veil" id="veil">
+      <div class="box" role="alertdialog" aria-modal="true" aria-labelledby="boxMsg">
+
+        <div class="box-top">
+          <span id="boxTitle">error</span>
+        </div>
+
+        <div class="box-body">
+          <div class="face">😢</div>
+          <p id="boxMsg"></p>
+          <button class="key" id="retryBtn" type="button">TRY AGAIN</button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Sound on / off (shows on the last screen) -->
+    <button class="mute" id="muteBtn" type="button">SOUND: ON</button>
+
+
+    <!--
+      ================================================================
+        EDIT HERE — texts and phone number.
+
+        This block is data only (it never runs), so editing it is safe.
+        Keep the "quotes" and commas exactly as they are.
+
+          phone       : with country code, digits and + only | NOTE:( ADD YOUR PHONE NUMBER HERE = COUNTRY CODE + YOUR NUMBER )
+          rainOpacity : 0 = no rain, 1 = full strength
+          screenDim   : darkness at the centre of the screen, 0 to 1
+          dodgeNo     : true = after the first click, NO and DISAGREE
+                        hide and jump away from the pointer
+      ================================================================
+    -->
+    <script type="application/json" id="config">
+      {
+        "question": "Do You Trust Me?",
+        "threat": "Can I Hack Your Phone?",
+        "sadNo": "Now I Become Sad, Ok See The Magic 😈",
+        "sadDis": "So You Don't Trust Me, Ok See The Magic 😈",
+        "wish": "// I was joking, don't scare 😊",
+        "wish2": "Happy birthday and I hope this year brings you endless happiness, success, good health, and everything you've been wishing for.",
+        "callText": "One Last Thing, Click Me !",
+        "phone": "+0000000000",   
+        "rainOpacity": 0.55,
+        "screenDim": 0.90,
+        "dodgeNo": true
+      }
+    </script>
+
+
+    <!-- Page logic -->
+    <script src="script.js" defer></script>
+
+  </body>
+
+</html>

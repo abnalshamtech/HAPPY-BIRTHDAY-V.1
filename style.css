@@ -1,0 +1,594 @@
+/* =========================================================
+   HBD page styles
+   ========================================================= */
+
+
+/* ---------- Colours ---------- */
+
+:root {
+  --bg: #050705;
+  --bg-2: #0a0f0a;
+
+  --green: #22b32d;
+  --green-dim: #1e6b24;
+  --green-faint: #1e6b24;
+
+  --red: #c0392b;
+  --amber: #d4a017;
+
+  --border: rgba(34, 179, 45, 0.18);
+}
+
+
+/* ---------- Base ---------- */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(ellipse at 50% 30%, var(--bg-2), var(--bg) 75%);
+  font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Courier New', monospace;
+  color: var(--green);
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* ---------- Background effects ---------- */
+
+/* old monitor scanlines */
+.crt {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.18) 3px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+}
+
+/* dark edges */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 49;
+  pointer-events: none;
+  box-shadow: inset 0 0 20vw rgba(0, 0, 0, 0.85);
+}
+
+/* falling characters (last screen) */
+canvas#rain {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+}
+
+canvas#rain.on {
+  opacity: var(--rain-op, 0.22);
+}
+
+/* dark veil in the middle so the text stays readable over the rain */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 68% 62% at 50% 50%,
+    rgba(3, 5, 3, var(--dim, 0.9)) 0%,
+    rgba(3, 5, 3, calc(var(--dim, 0.9) * 0.92)) 42%,
+    rgba(3, 5, 3, calc(var(--dim, 0.9) * 0.52)) 68%,
+    rgba(3, 5, 3, calc(var(--dim, 0.9) * 0.18)) 100%
+  );
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  transition: opacity 1.2s ease;
+}
+
+.scrim.on {
+  opacity: 1;
+}
+
+
+/* ---------- Screens ---------- */
+
+.screen {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    calc(clamp(16px, 4vw, 48px) + env(safe-area-inset-top, 0px))
+    clamp(16px, 4vw, 48px)
+    calc(clamp(16px, 4vw, 48px) + env(safe-area-inset-bottom, 0px));
+
+  animation: flicker 6s infinite;
+}
+
+@keyframes flicker {
+  0%, 96%, 100% { filter: brightness(1); }
+  97%           { filter: brightness(0.93); }
+  98%           { filter: brightness(1.03); }
+}
+
+.stack {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+/* ---------- ASCII art ---------- */
+
+.art-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.art-wrap::-webkit-scrollbar {
+  display: none;
+}
+
+.art {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* stripes drawn over the art */
+.art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.55) 0px,
+    rgba(0, 0, 0, 0.55) 1.5px,
+    transparent 1.5px,
+    transparent 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+pre.ascii {
+  margin: 0;
+  font-family: inherit;
+  font-size: clamp(4.2px, 1.85vw, 15px);
+  line-height: 1.05;
+  letter-spacing: 0;
+  white-space: pre;
+  color: var(--green);
+}
+
+/* the big "!" on the first screen */
+#bang {
+  font-size: clamp(20px, 5.5vw, 44px);
+  line-height: 1.05;
+}
+
+
+/* ---------- Question text ---------- */
+
+.ask {
+  margin: 34px 0 0;
+  min-height: 1.6em;
+  font-size: clamp(13px, 2.6vw, 20px);
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.ask.top {
+  margin-top: 0;
+}
+
+/* blinking typing cursor */
+.ask .cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 4px;
+  vertical-align: -0.15em;
+  background: var(--green);
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.sub {
+  margin: 10px 0 0;
+  font-size: clamp(9px, 1.5vw, 12px);
+  color: var(--green-faint);
+  letter-spacing: 0.14em;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.sub.show {
+  opacity: 1;
+}
+
+
+/* ---------- Buttons ---------- */
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 30px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.choices.show {
+  opacity: 1;
+  transform: none;
+}
+
+.choices.call {
+  margin-top: 26px;
+}
+
+.key {
+  position: relative;
+  display: inline-block;
+  padding: 13px 30px;
+
+  font-family: inherit;
+  font-size: clamp(12px, 1.9vw, 15px);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-decoration: none;
+
+  color: var(--green);
+  background: rgba(34, 179, 45, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s,
+    transform 0.18s,
+    box-shadow 0.2s;
+}
+
+.key:hover {
+  background: rgba(34, 179, 45, 0.16);
+  border-color: var(--green);
+  box-shadow: 0 0 18px -4px rgba(34, 179, 45, 0.55);
+}
+
+.key:not(.no):active {
+  transform: translateY(1px);
+}
+
+.key:focus-visible {
+  outline: 1px solid var(--green);
+  outline-offset: 3px;
+}
+
+/* NO / DISAGREE: dimmer, jumps instantly (no slide) and fades while hiding */
+.key.no {
+  z-index: 3;
+  color: var(--green-dim);
+  border-color: rgba(34, 179, 45, 0.12);
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s,
+    box-shadow 0.2s,
+    opacity 0.16s;
+}
+
+.key.no:hover {
+  color: var(--green);
+}
+
+.key.no.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* ---------- Fake hack log ---------- */
+
+.log {
+  width: 100%;
+  min-height: 14em;
+  font-size: clamp(9px, 1.5vw, 13px);
+  line-height: 1.9;
+  color: var(--green-faint);
+  text-align: left;
+}
+
+.log .row {
+  white-space: pre-wrap;
+  opacity: 0;
+  transform: translateY(2px);
+  transition: opacity 0.18s, transform 0.18s;
+}
+
+.log .row.show {
+  opacity: 1;
+  transform: none;
+}
+
+.log .t,
+.log .ok {
+  color: var(--green);
+}
+
+.log .warn {
+  color: var(--amber);
+}
+
+.log .err {
+  color: var(--red);
+}
+
+.bar-line {
+  margin-top: 16px;
+  font-family: inherit;
+  font-size: clamp(4.2px, 1.85vw, 15px);
+  line-height: 1.05;
+  white-space: pre;
+}
+
+.bar-line .empty {
+  color: var(--green-dim);
+  opacity: 0.5;
+}
+
+
+/* ---------- Happy Birthday screen ---------- */
+
+#s-party .art {
+  align-items: center;
+}
+
+/* the rain runs behind this screen, so the content sits on its own dark pool */
+#s-party .stack {
+  position: relative;
+  z-index: 0;
+  padding: 40px 22px 34px;
+}
+
+#s-party .stack::before {
+  content: "";
+  position: absolute;
+  inset: -26px -44px;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 72% 64% at 50% 50%,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.82) 46%,
+    rgba(0, 0, 0, 0.5) 70%,
+    transparent 100%
+  );
+}
+
+#s-party .stack > * {
+  position: relative;
+  z-index: 1;
+}
+
+pre.ascii,
+.cake,
+.wish,
+.wish2 {
+  text-shadow: 0 0 16px #000, 0 0 7px #000, 0 2px 4px #000;
+}
+
+.cake {
+  margin: 26px 0 0;
+  font-size: clamp(7px, 2.1vw, 16px);
+  line-height: 1.15;
+  white-space: pre;
+  color: var(--green);
+  text-align: left;
+}
+
+/* candle flames */
+.cake .fl {
+  color: #eaff9a;
+  text-shadow: 0 0 9px rgba(190, 255, 120, 0.9), 0 0 12px #000, 0 0 4px #000;
+}
+
+.wish {
+  margin: 26px 0 0;
+  min-height: 1.5em;
+  font-size: clamp(11px, 1.8vw, 15px);
+  color: var(--green);
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.wish2 {
+  max-width: 52ch;
+  margin: 14px auto 0;
+  font-size: clamp(11.5px, 1.75vw, 15px);
+  line-height: 1.75;
+  letter-spacing: 0.02em;
+  color: var(--green-faint);
+  text-align: center;
+  text-wrap: pretty;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.wish2.show {
+  opacity: 1;
+}
+
+.again {
+  margin-top: 18px;
+  padding: 6px;
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--green-dim);
+  background: none;
+  border: 0;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.again:hover {
+  opacity: 1;
+  color: var(--green);
+}
+
+/* glitchy entrance */
+.glitch {
+  animation: glitchIn 0.5s steps(7) both;
+}
+
+@keyframes glitchIn {
+  0%   { clip-path: inset(0 0 100% 0); opacity: 0; }
+  30%  { clip-path: inset(0 0 42% 0);  opacity: 1; transform: translateX(-6px); }
+  45%  { clip-path: inset(58% 0 0 0);  transform: translateX(5px); }
+  60%  { clip-path: inset(0 0 18% 0);  transform: translateX(-3px); }
+  100% { clip-path: inset(0 0 0 0);    transform: none; }
+}
+
+
+/* ---------- Popup message ---------- */
+
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(2, 4, 2, 0.78);
+}
+
+.veil.show {
+  display: flex;
+}
+
+.box {
+  width: min(380px, 92vw);
+  background: #060a06;
+  border: 1px solid var(--green);
+  box-shadow: 0 0 44px -10px rgba(34, 179, 45, 0.4);
+  animation: pop 0.22s ease-out both;
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: none; }
+}
+
+.box-top {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--green-dim);
+}
+
+.box-body {
+  padding: 28px 24px 26px;
+  text-align: center;
+}
+
+.face {
+  margin-bottom: 16px;
+  font-size: 52px;
+  line-height: 1;
+  filter: grayscale(0.15);
+}
+
+.box-body p {
+  margin: 0 0 24px;
+  font-size: clamp(12px, 2vw, 15px);
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+}
+
+
+/* ---------- Sound button ---------- */
+
+.mute {
+  position: fixed;
+  z-index: 55;
+  right: 14px;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  display: none;
+  padding: 8px 12px;
+
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--green-dim);
+  background: rgba(5, 8, 5, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.mute.show {
+  display: block;
+}
+
+.mute:hover {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+
+/* ---------- Less motion for people who ask for it ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition-duration: 0.001s !important;
+  }
+}
