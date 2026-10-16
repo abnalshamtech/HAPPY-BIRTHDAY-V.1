@@ -10,36 +10,36 @@ then reveals a Happy Birthday screen with a cake, chiptune music and falling cod
 > **Note:** this page does not collect, send or store any data.
 > It's only a small, harmless joke to surprise your friends.
 
-![Happy Birthday screen](images/05-birthday.png)
+![Happy Birthday screen](Images/05-birthday.png)
 
 ## How it works
 
 **1. The question:** "Do You Trust Me?" After the first "NO", the button runs away from the mouse.
 
-![Do you trust me screen](images/01-trust.png)
+![Do you trust me screen](Images/01-trust.png)
 
 **2. Saying no:** a popup appears, and "NO" won't sit still after that.
 
-![Rejected popup](images/02-popup.png)
+![Rejected popup](Images/02-popup.png)
 
 **3. The threat:** "Can I Hack Your Phone?" "DISAGREE" also runs away after the first click.
 
-![Can I hack your phone screen](images/03-hack.png)
+![Can I hack your phone screen](Images/03-hack.png)
 
 **4. The fake hack:** a terminal log and progress bar. Nothing real happens.
 
-![Fake hack log](images/04-fake-hack.png)
+![Fake hack log](Images/04-fake-hack.png)
 
 **5. The reveal:** Happy Birthday with ASCII art, a flickering cake, music and code rain.
 
-![Happy Birthday reveal](images/05-birthday.png)
+![Happy Birthday reveal](Images/05-birthday.png)
 
 ## On mobile
 
 <p>
-  <img src="images/06-mobile-trust.png" alt="Mobile – first screen" width="260">
+  <img src="Images/06-mobile-trust.png" alt="Mobile – first screen" width="260">
   &nbsp;&nbsp;
-  <img src="images/07-mobile-birthday.png" alt="Mobile – Happy Birthday screen" width="260">
+  <img src="Images/07-mobile-birthday.png" alt="Mobile – Happy Birthday screen" width="260">
 </p>
 
 ## Change the texts, name or phone
@@ -56,7 +56,7 @@ the birthday wish and the phone number there.
 | `style.css`  | All the styling                                |
 | `script.js`  | All the behaviour                              |
 | `_headers`   | Security headers (Netlify / Cloudflare Pages)  |
-| `images/`    | Screenshots used in this README                |
+| `Images/`    | Screenshots used in this README                |
 
 ## Run it
 
